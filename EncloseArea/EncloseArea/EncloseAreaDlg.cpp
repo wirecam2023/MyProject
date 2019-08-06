@@ -307,6 +307,7 @@ void CEncloseAreaDlg::OnBnClickedButtonTest()
 
 		nonefieldlines[k].draw(pDC);
 	}
+	//
 /*
 	vector<vector<CLine>> get_all_big_field = ClosedArea.get_all_big_field(nonefieldlines);
 
