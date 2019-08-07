@@ -321,7 +321,6 @@ vector<CLine> CMinimumClosedArea::removenonefieldlines(vector<CLine> input)
 
 /*-------------------程序思路⑤：找出所有的大区域线段集合M,M是线段集合的集合-----------------*/
 
-
 vector<vector<CLine>> CMinimumClosedArea::get_all_big_field(vector<CLine> input)
 {
 	vector<CLine> alllines;

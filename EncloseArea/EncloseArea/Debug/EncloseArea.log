@@ -1,5 +1,5 @@
-﻿生成启动时间为 2019/8/6 9:10:47。
-     1>项目“F:\4.最小闭合区域课题的资料\代码备份\EncloseArea\EncloseArea\EncloseArea.vcxproj”在节点 2 上(Build 个目标)。
+﻿生成启动时间为 2019/8/7 8:41:42。
+     1>项目“F:\gitProject\EncloseArea\EncloseArea\EncloseArea.vcxproj”在节点 2 上(Rebuild 个目标)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\EncloseArea.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
          stdafx.cpp
@@ -17,7 +17,7 @@
        ResourceCompile:
          C:\Program Files (x86)\Windows Kits\8.0\bin\x86\rc.exe /D _DEBUG /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\EncloseArea.res" EncloseArea.rc 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\4.最小闭合区域课题的资料\代码备份\EncloseArea\Debug\EncloseArea.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"F:\4.最小闭合区域课题的资料\代码备份\EncloseArea\Debug\EncloseArea.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\4.最小闭合区域课题的资料\代码备份\EncloseArea\Debug\EncloseArea.lib" /MACHINE:X86 Debug\EncloseArea.res
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\gitProject\EncloseArea\Debug\EncloseArea.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"F:\gitProject\EncloseArea\Debug\EncloseArea.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\gitProject\EncloseArea\Debug\EncloseArea.lib" /MACHINE:X86 Debug\EncloseArea.res
          Debug\Base.obj
          Debug\EncloseArea.obj
          Debug\EncloseAreaDlg.obj
@@ -28,9 +28,9 @@
          Debug\Point.obj
          Debug\Polyline.obj
          Debug\stdafx.obj
-         EncloseArea.vcxproj -> F:\4.最小闭合区域课题的资料\代码备份\EncloseArea\Debug\EncloseArea.exe
-     1>已完成生成项目“F:\4.最小闭合区域课题的资料\代码备份\EncloseArea\EncloseArea\EncloseArea.vcxproj”(Build 个目标)的操作。
+         EncloseArea.vcxproj -> F:\gitProject\EncloseArea\Debug\EncloseArea.exe
+     1>已完成生成项目“F:\gitProject\EncloseArea\EncloseArea\EncloseArea.vcxproj”(Rebuild 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:28.05
+已用时间 00:00:27.54

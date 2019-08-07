@@ -302,15 +302,25 @@ void CEncloseAreaDlg::OnBnClickedButtonTest()
 	vector<CLine> breaklines = ClosedArea.breaklines(nonisolatedLine);
 	//4.移除一个端点孤立的线段（一个端点孤立的线段是不构成多边形的）
 	vector<CLine> nonefieldlines = ClosedArea.removenonefieldlines(breaklines);
-	for (unsigned int k = 0; k < nonefieldlines.size();k++ )
-	{
-
-		nonefieldlines[k].draw(pDC);
-	}
-	//
-/*
+	
 	vector<vector<CLine>> get_all_big_field = ClosedArea.get_all_big_field(nonefieldlines);
+	for (unsigned int i= 0;i<get_all_big_field.size();i++)
+	{
+		vector<CLine> lines;
+		for (auto j = get_all_big_field[i].begin();j != get_all_big_field[i].end(); j++)
+		{
+			lines.push_back(*j);
 
+		}
+		
+		for (unsigned int k = 0; k < lines.size();k++ )
+		{
+
+			lines[k].draw(pDC);
+		}
+	}
+
+/*
 	//测试
 	for (unsigned int i= 0;i<get_all_big_field.size();i++)
 	{
