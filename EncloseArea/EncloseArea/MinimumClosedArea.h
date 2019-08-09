@@ -23,6 +23,9 @@ public:
 
 
 
+	bool doeslinehascrossline(CLine L, vector<CLine> LS);
+	vector<CLine> doed_it_has_small_field(vector<CLine> input);
+	CLine getnextline(CLine L, vector<CLine> LS, bool isbigangel);
 private:
 	vector<CLine> LineCollection;
 };

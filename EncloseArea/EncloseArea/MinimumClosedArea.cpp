@@ -98,7 +98,7 @@ bool CMinimumClosedArea::doselinecross(CLine L1, CLine L2)
 	}
 	if (Be_equal_to((x3 - x4) * (y1 - y2) - (x1 - x2) * (y3 - y4), 0.f) || Be_equal_to((y1 - y2) * (x3 - x4) - (x1 - x2) * (y3 - y4), 0.f))//斜率相等
 	{
-		if (Be_equal_to(L1.getStartPoint(), L2.getStartPoint()) || Be_equal_to(L1.getEndPoint(), L2.getEndPoint()) || Be_equal_to(L1.getEndPoint(), L2.getStartPoint()) || Be_equal_to(L1.getEndPoint(), L2.getEndPoint()))
+		if (Be_equal_to(L1.getStartPoint(), L2.getStartPoint()) || Be_equal_to(L1.getEndPoint(), L2.getEndPoint()) || Be_equal_to(L1.getEndPoint(), L2.getStartPoint()) || Be_equal_to(L1.getStartPoint(), L2.getEndPoint()))
 		{
 			return true;
 		}
@@ -299,6 +299,7 @@ vector<CLine> CMinimumClosedArea::removenonefieldlines(vector<CLine> input)
 			if (Be_equal_to(input[i].getStartPoint(),crossPoint[m]))
 			{
 				bEqual = true;
+				break;
 			}
 		}
 
@@ -309,6 +310,7 @@ vector<CLine> CMinimumClosedArea::removenonefieldlines(vector<CLine> input)
 				if (Be_equal_to(input[i].getEndPoint(),crossPoint[n]))
 				{
 					resultLines.push_back(input[i]);
+					break;
 				}
 			}
 		}
@@ -360,6 +362,127 @@ vector<vector<CLine>> CMinimumClosedArea::get_all_big_field(vector<CLine> input)
 	}
 	return output;
 }
+
+bool CMinimumClosedArea::doeslinehascrossline(CLine L, vector<CLine> LS)
+{
+	bool doeshas = false;
+	for (int i = 0; i < LS.size(); i++)
+	{
+		if (doselinecross(L, LS[i]))
+		{
+			doeshas = true;
+			break;
+		}
+	}
+	return doeshas;
+}
+
+//通过历史线段来提取封闭区域
+vector<CLine> CMinimumClosedArea::doed_it_has_small_field(vector<CLine> input)
+{
+	vector<CLine> lines;
+	lines.clear();
+	lines = input;
+	vector<CLine> output;
+	output.clear();
+	for (int i = 0; i < (lines.size() - 2); i++)
+	{
+		CLine A, B;
+		A = lines[lines.size() - 1];
+		B = lines[i];
+		if ((Be_equal_to(A.getStartPoint(), B.getStartPoint()) && Be_equal_to(A.getEndPoint(), B.getEndPoint())) 
+			|| (Be_equal_to(A.getStartPoint(), B.getEndPoint()) && Be_equal_to(A.getEndPoint(), B.getStartPoint())))
+		{
+			for (int j = i + 1; j < lines.size(); j++)
+			{
+				output.push_back(lines[j]);
+			}
+		}
+	}
+	return output;
+}
+
+
+CLine CMinimumClosedArea::getnextline(CLine L, vector<CLine> LS, bool isbigangel)
+{
+	vector<CLine> lines;
+	lines.clear();
+	lines = LS;
+	for (int i = 0; i<lines.size(); i++)
+	{
+		if ((Be_equal_to(lines[i].getStartPoint(), L.getStartPoint()) && Be_equal_to(lines[i].getEndPoint(), L.getEndPoint())) 
+			|| (Be_equal_to(lines[i].getStartPoint(), L.getEndPoint()) && Be_equal_to(lines[i].getEndPoint(), L.getStartPoint())))
+		{
+			lines.erase(lines.begin() + i);
+			break;
+		}
+	}
+	vector<CLine> crosslines;
+	crosslines.clear();
+	for (int i = 0; i < lines.size(); i++)
+	{
+		if (Be_equal_to(lines[i].getStartPoint(), L.getEndPoint()))
+		{
+			crosslines.push_back(lines[i]);
+		}
+		if (Be_equal_to(lines[i].getEndPoint(), L.getEndPoint()))
+		{
+			Point P;
+			P = lines[i].getStartPoint();
+			lines[i].getStartPoint() = lines[i].getEndPoint();
+			lines[i].getEndPoint() = P;
+			crosslines.push_back(lines[i]);
+		}
+	}
+	CLine output;
+	if (crosslines.size() == 0)
+	{
+		Point pt(0,0);
+
+		output.setStartPoint(pt);
+		output.setEndPoint(pt);
+
+		return output;
+	}
+	if (crosslines.size() == 1)
+	{
+		output = crosslines[0];
+		return output;
+	}
+	float A = 3.1415926 * 2;
+	float B = 0;
+	for (int i = 0; i < crosslines.size(); i++)
+	{
+		float angel = acos((L.getStartPoint() - L.getEndPoint()).operator|(crosslines[i].getEndPoint() - crosslines[i].getStartPoint()) 
+			/ (((L.getStartPoint() - L.getEndPoint()).Size())*((crosslines[i].getEndPoint() - crosslines[i].getStartPoint()).Size())));
+		if ((L.getStartPoint() - L.getEndPoint()).operator^((crosslines[i].getEndPoint() - crosslines[i].getStartPoint())).Z == 0)
+		{
+			angel = 3.1415926;
+		}
+		if ((L.getStartPoint() - L.getEndPoint()).operator^((crosslines[i].getEndPoint() - crosslines[i].getStartPoint())).Z > 0)
+		{
+			angel = 3.1415926 * 2 - angel;
+		}
+		if (isbigangel)
+		{
+			if (angel > B)
+			{
+				B = angel;
+				output = crosslines[i];
+			}
+		}
+		else
+		{
+			if (angel < A)
+			{
+				A = angel;
+				output = crosslines[i];
+			}
+		}
+	}
+	return output;
+}
+
 
 
 
