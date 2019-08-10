@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "MinimumClosedArea.h"
+#include <math.h>
+#include "MyVector2d.h"
+#define PI 3.14159265
 
 /*-------------------程序思路------------------------*/
 /*
@@ -363,10 +366,12 @@ vector<vector<CLine>> CMinimumClosedArea::get_all_big_field(vector<CLine> input)
 	return output;
 }
 
+/*-----------程序思路⑥：分别对每一个大区域进行封闭区域的提取--------------------*/
+
 bool CMinimumClosedArea::doeslinehascrossline(CLine L, vector<CLine> LS)
 {
 	bool doeshas = false;
-	for (int i = 0; i < LS.size(); i++)
+	for (unsigned int i = 0; i < LS.size(); i++)
 	{
 		if (doselinecross(L, LS[i]))
 		{
@@ -385,7 +390,7 @@ vector<CLine> CMinimumClosedArea::doed_it_has_small_field(vector<CLine> input)
 	lines = input;
 	vector<CLine> output;
 	output.clear();
-	for (int i = 0; i < (lines.size() - 2); i++)
+	for (unsigned int i = 0; i < (lines.size() - 2); i++)
 	{
 		CLine A, B;
 		A = lines[lines.size() - 1];
@@ -393,7 +398,7 @@ vector<CLine> CMinimumClosedArea::doed_it_has_small_field(vector<CLine> input)
 		if ((Be_equal_to(A.getStartPoint(), B.getStartPoint()) && Be_equal_to(A.getEndPoint(), B.getEndPoint())) 
 			|| (Be_equal_to(A.getStartPoint(), B.getEndPoint()) && Be_equal_to(A.getEndPoint(), B.getStartPoint())))
 		{
-			for (int j = i + 1; j < lines.size(); j++)
+			for (unsigned int j = i + 1; j < lines.size(); j++)
 			{
 				output.push_back(lines[j]);
 			}
@@ -408,8 +413,9 @@ CLine CMinimumClosedArea::getnextline(CLine L, vector<CLine> LS, bool isbigangel
 	vector<CLine> lines;
 	lines.clear();
 	lines = LS;
-	for (int i = 0; i<lines.size(); i++)
+	for (unsigned int i = 0; i<lines.size(); i++)
 	{
+		//判断线段L与lines[i]是否重合
 		if ((Be_equal_to(lines[i].getStartPoint(), L.getStartPoint()) && Be_equal_to(lines[i].getEndPoint(), L.getEndPoint())) 
 			|| (Be_equal_to(lines[i].getStartPoint(), L.getEndPoint()) && Be_equal_to(lines[i].getEndPoint(), L.getStartPoint())))
 		{
@@ -417,16 +423,17 @@ CLine CMinimumClosedArea::getnextline(CLine L, vector<CLine> LS, bool isbigangel
 			break;
 		}
 	}
-	vector<CLine> crosslines;
+	vector<CLine> crosslines; //lines[]中与L相连的线段
 	crosslines.clear();
-	for (int i = 0; i < lines.size(); i++)
+	for (unsigned int i = 0; i < lines.size(); i++)
 	{
-		if (Be_equal_to(lines[i].getStartPoint(), L.getEndPoint()))
+		if (Be_equal_to(lines[i].getStartPoint(), L.getEndPoint())) //lines[i]的起点与L的终点相同
 		{
 			crosslines.push_back(lines[i]);
 		}
-		if (Be_equal_to(lines[i].getEndPoint(), L.getEndPoint()))
+		if (Be_equal_to(lines[i].getEndPoint(), L.getEndPoint())) //lines[i]的终点与L的终点相同
 		{
+			//交换lines[i]的起点和终点
 			Point P;
 			P = lines[i].getStartPoint();
 			lines[i].getStartPoint() = lines[i].getEndPoint();
@@ -449,17 +456,27 @@ CLine CMinimumClosedArea::getnextline(CLine L, vector<CLine> LS, bool isbigangel
 		output = crosslines[0];
 		return output;
 	}
-	float A = 3.1415926 * 2;
-	float B = 0;
-	for (int i = 0; i < crosslines.size(); i++)
+	//若crosslines[]中有两条以上的线段
+	double A = PI * 2;
+	double B = 0;
+	for (unsigned int i = 0; i < crosslines.size(); i++)
 	{
-		float angel = acos((L.getStartPoint() - L.getEndPoint()).operator|(crosslines[i].getEndPoint() - crosslines[i].getStartPoint()) 
-			/ (((L.getStartPoint() - L.getEndPoint()).Size())*((crosslines[i].getEndPoint() - crosslines[i].getStartPoint()).Size())));
-		if ((L.getStartPoint() - L.getEndPoint()).operator^((crosslines[i].getEndPoint() - crosslines[i].getStartPoint())).Z == 0)
+		double va_x = L.getStartPoint().x;
+		double va_y = L.getStartPoint().y;
+
+		double vb_x = crosslines[i].getStartPoint().x;
+		double vb_y = crosslines[i].getEndPoint().y;
+		CMyVector2d va(va_x,va_y);
+		CMyVector2d vb(vb_x,vb_y);
+		//向量点乘 angle =arcos(u*v/|u||v|) 
+		double angel = va.GetAngleTo(vb);
+
+		//L与crosslines[i]的点积为0
+		if (va.DotProduct(vb) == 0)
 		{
-			angel = 3.1415926;
+			angel = PI;
 		}
-		if ((L.getStartPoint() - L.getEndPoint()).operator^((crosslines[i].getEndPoint() - crosslines[i].getStartPoint())).Z > 0)
+		if (va.DotProduct(vb) > 0)
 		{
 			angel = 3.1415926 * 2 - angel;
 		}
